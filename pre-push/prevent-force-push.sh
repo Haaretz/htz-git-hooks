@@ -25,7 +25,7 @@ prevent_force() {
   current_branch=`git rev-parse --abbrev-ref HEAD`
   push_command=`ps -ocommand= -p $PPID`
   is_destructive="force|delete|-f"
-	will_delete_protected=':'$protected_branch
+  will_delete_protected=':'$protected
 
   if [[ "$current_branch" =~ $protected && "$push_command" =~ $is_destructive ]] || \
      [[ "$push_command" =~ $is_destructive && $push_command =~ $protected ]] || \
@@ -33,8 +33,9 @@ prevent_force() {
 	then
     local branch_name="$(echo $push_command | grep -ohE "$protected")" 
     echo -e "\n${cyan}[Policy]${normal} Deleting or force pushing to the ${red}$branch_name${normal} branch of $1 is forbidden\n"
-		exit 1
-	fi
+
+    exit 1
+  fi
 
   exit 0
 }; prevent_force $1 $2

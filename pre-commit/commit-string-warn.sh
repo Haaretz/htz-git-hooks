@@ -14,7 +14,7 @@ warn_if_trying_to_commit() {
   # Enable getting interactive input from user
   exec < /dev/tty
 
-  [[ -n "`git diff-index --cached -S\"$1\"`HEAD" ]] && local has_string=true || local has_string=false
+  [[ -n "`git diff-index --cached -S\"$1\" HEAD`" ]] && local has_string=true || local has_string=false
 
   if [[ $has_string == true ]]; then
     local file=`git diff-index --cached --name-only "$1" HEAD`
